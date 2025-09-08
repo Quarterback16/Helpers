@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -33,7 +34,7 @@ namespace Helpers
 			var fullFile = TackOnOutputDirectory(fileName);
 			if (File.Exists(fullFile))
 			{
-				Logger.Info(
+				LogIt(
 					$"File {fullFile} already exists");
 				gotIt = true;
 			}
@@ -43,7 +44,8 @@ namespace Helpers
 		public static string GetFileName(
 			Uri target)
 		{
-			var fileName = Path.GetFileName(target.LocalPath);
+			var fileName = Path.GetFileName(
+				target.LocalPath);
 			return fileName;
 		}
 
@@ -59,7 +61,9 @@ namespace Helpers
 
 			fileName = TackOnOutputDirectory(
 				fileName);
-			Logger.Info($"attempting DL on uri: {target} to {fileName}");
+
+			LogIt(
+				$"attempting DL on uri: {target} to {fileName}");
 			try
 			{
 				byte[] result;
@@ -97,7 +101,7 @@ namespace Helpers
 					}
 				}
 				downloaded = true;
-				Logger.Info($@"Success file {
+				LogIt($@"Success file {
 					fileName
 					} downloaded to {
 					target
@@ -105,7 +109,8 @@ namespace Helpers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error($@"There was a problem downloading the file {
+				LogIt(
+					$@"There was a problem downloading the file {
 					fileName
 					} from {
 					target
@@ -113,6 +118,12 @@ namespace Helpers
 					ex.Message}");
 			}
 			return downloaded;
+		}
+
+		private void LogIt(string message)
+		{
+			Logger.Info(message);
+			Debug.WriteLine(message);
 		}
 
 		public bool DownloadPdf(
@@ -160,7 +171,7 @@ namespace Helpers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(
+				LogIt(
 					$"There was a problem downloading the file - {ex.Message}");
 			}
 			return downloaded;
