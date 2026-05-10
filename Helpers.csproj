@@ -79,8 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFileDetector.cs" />
+    <Compile Include="ConfigHelper.cs" />
     <Compile Include="ConfigReader.cs" />
     <Compile Include="Downloader.cs" />
+    <Compile Include="FolderHelper.cs" />
     <Compile Include="GoogleChart.cs" />
     <Compile Include="IDownloader.cs" />
     <Compile Include="Interfaces\ICache.cs" />
